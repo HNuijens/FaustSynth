@@ -30,11 +30,7 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
-    typedef AudioProcessorValueTreeState::ButtonAttachment ButtonAttachment;
-
 private:
-    AudioProcessorValueTreeState& valueTreeState;
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
@@ -46,23 +42,13 @@ private:
     MidiKeyboardComponent keyboardComponent;
 
     Slider cutoffSlider;
-    std::unique_ptr<SliderAttachment> cutoffAttachment;
-
 
     Slider gainSlider;
-    std::unique_ptr<SliderAttachment> gainAttachment;
 
     juce::ToggleButton onOffButton1; //square
     juce::ToggleButton onOffButton2; //saw
     juce::ToggleButton onOffButton3; //tri
     juce::ToggleButton onOffButton4; //noise
-    std::unique_ptr<ButtonAttachment> squareAttachment;
-    std::unique_ptr<ButtonAttachment> sawAttachment;
-    std::unique_ptr<ButtonAttachment> triAttachment;
-    std::unique_ptr<ButtonAttachment> noiseAttachment;
-
-
-
 
 
     Label cutoffLabel;

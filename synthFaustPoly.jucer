@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="ZtdU1j" name="synthFaustPoly" projectType="audioplug" useAppConfig="0"
               jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
-              displaySplashScreen="1">
+              displaySplashScreen="1" pluginFormats="buildVST3">
   <MAINGROUP id="GWd9ps" name="synthFaustPoly">
     <GROUP id="{29C86BE1-8A97-38E2-2ABA-7A95958D6B16}" name="Source">
       <FILE id="iF97tu" name="DspFaust.cpp" compile="1" resource="0" file="Source/DspFaust.cpp"/>

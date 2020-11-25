@@ -19,7 +19,7 @@ SynthFaustPolyAudioProcessor::SynthFaustPolyAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-     ), parameters(*this, nullptr, Identifier("faust poly synth"), createParameterLayout())
+     )
 #endif
 {
     dspFaust.start();
@@ -161,8 +161,7 @@ void SynthFaustPolyAudioProcessor::prepareToPlay (double sampleRate, int samples
 
 void SynthFaustPolyAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -191,8 +190,6 @@ bool SynthFaustPolyAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
 
 void SynthFaustPolyAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    //empty
-    // call methods 
 
     for (auto messageReference : midiMessages)
     {
@@ -225,32 +222,10 @@ juce::AudioProcessorEditor* SynthFaustPolyAudioProcessor::createEditor()
 //==============================================================================
 void SynthFaustPolyAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    auto state = parameters.copyState();
-    std::unique_ptr<juce::XmlElement> xml(state.createXml());
-    copyXmlToBinary(*xml, destData);
 }
 
 void SynthFaustPolyAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-
-    if (xmlState.get() != nullptr)
-        if (xmlState->hasTagName(parameters.state.getType()))
-            parameters.replaceState(juce::ValueTree::fromXml(*xmlState));
-}
-
-AudioProcessorValueTreeState::ParameterLayout SynthFaustPolyAudioProcessor::createParameterLayout()
-{
-    AudioProcessorValueTreeState::ParameterLayout params;
-
-    params.add (std::make_unique<AudioParameterFloat>("cutoff", "cutoff", 0.0f, 1.0f, 0.2f));
-    params.add (std::make_unique<AudioParameterFloat>("gain", "gain", 0.0f, 1.0f, 0.5f));
-    params.add (std::make_unique<AudioParameterBool>("square", "square", false));
-    params.add (std::make_unique<AudioParameterBool>("saw", "Saw", false));
-    params.add (std::make_unique<AudioParameterBool>("tri", "Tri", false));
-    params.add (std::make_unique<AudioParameterBool>("noise", "Noise", false));
-
-    return { params };
 }
 
 //==============================================================================
