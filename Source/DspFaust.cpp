@@ -1,8 +1,8 @@
 #define JUCE_DRIVER 1
 #define NVOICES 12
 /* ------------------------------------------------------------
-name: "synth"
-Code generated with Faust 2.28.6 (https://faust.grame.fr)
+name: "untitled"
+Code generated with Faust 2.28.8 (https://faust.grame.fr)
 Compilation options: -lang cpp -scal -ftz 0
 ------------------------------------------------------------ */
 
@@ -570,7 +570,7 @@ class dsp {
         /* Init default control parameters values */
         virtual void instanceResetUserInterface() = 0;
     
-        /* Init instance state (delay lines...) */
+        /* Init instance state (like delay lines...) but keep the control parameter values */
         virtual void instanceClear() = 0;
  
         /**
@@ -3131,7 +3131,7 @@ class DecoratorUI : public UI
 #endif
 /**************************  END  DecoratorUI.h **************************/
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(__VCVRACK__)
 #include <CoreFoundation/CFBundle.h>
 #endif
 
@@ -4504,7 +4504,7 @@ class SoundUI : public GenericUI
         static std::string getBinaryPath()
         {
             std::string bundle_path_str;
-        #ifdef __APPLE__
+        #if defined(__APPLE__) && !defined(__VCVRACK__)
             CFURLRef bundle_ref = CFBundleCopyBundleURL(CFBundleGetMainBundle());
             if (!bundle_ref) { std::cerr << "getBinaryPath CFBundleCopyBundleURL error\n"; return ""; }
       
@@ -4532,7 +4532,7 @@ class SoundUI : public GenericUI
         static std::string getBinaryPathFrom(const std::string& path)
         {
             std::string bundle_path_str;
-        #ifdef __APPLE__
+        #if defined(__APPLE__) && !defined(__VCVRACK__)
             CFBundleRef bundle = CFBundleGetBundleWithIdentifier(CFStringCreateWithCString(kCFAllocatorDefault, path.c_str(), CFStringGetSystemEncoding()));
             if (!bundle) { std::cerr << "getBinaryPathFrom CFBundleGetBundleWithIdentifier error '" << path << "'" << std::endl; return ""; }
          
@@ -4603,9 +4603,9 @@ class mydsp : public dsp {
 	float fRec2[2];
 	FAUSTFLOAT fHslider1;
 	float fRec3[2];
-	FAUSTFLOAT fButton0;
-	float fRec4[2];
 	FAUSTFLOAT fHslider2;
+	float fRec4[2];
+	FAUSTFLOAT fButton0;
 	float fRec5[2];
 	FAUSTFLOAT fButton1;
 	float fRec6[2];
@@ -4635,14 +4635,14 @@ class mydsp : public dsp {
  public:
 	
 	void metadata(Meta* m) { 
-		m->declare("filename", "synth.dsp");
+		m->declare("filename", "untitled.dsp");
 		m->declare("filters.lib/fir:author", "Julius O. Smith III");
 		m->declare("filters.lib/fir:copyright", "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>");
 		m->declare("filters.lib/fir:license", "MIT-style STK-4.3 license");
 		m->declare("filters.lib/iir:author", "Julius O. Smith III");
 		m->declare("filters.lib/iir:copyright", "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>");
 		m->declare("filters.lib/iir:license", "MIT-style STK-4.3 license");
-		m->declare("filters.lib/lowpass0_highpass1", "MIT-style STK-4.3 license");
+		m->declare("filters.lib/lowpass0_highpass1", "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>");
 		m->declare("filters.lib/lowpass0_highpass1:author", "Julius O. Smith III");
 		m->declare("filters.lib/lowpass:author", "Julius O. Smith III");
 		m->declare("filters.lib/lowpass:copyright", "Copyright (C) 2003-2019 by Julius O. Smith III <jos@ccrma.stanford.edu>");
@@ -4669,7 +4669,7 @@ class mydsp : public dsp {
 		m->declare("maths.lib/license", "LGPL with exception");
 		m->declare("maths.lib/name", "Faust Math Library");
 		m->declare("maths.lib/version", "2.3");
-		m->declare("name", "synth");
+		m->declare("name", "untitled");
 		m->declare("noises.lib/name", "Faust Noise Generator Library");
 		m->declare("noises.lib/version", "0.0");
 		m->declare("oscillators.lib/name", "Faust Oscillator Library");
@@ -4684,7 +4684,7 @@ class mydsp : public dsp {
 		return 0;
 	}
 	virtual int getNumOutputs() {
-		return 1;
+		return 2;
 	}
 	virtual int getInputRate(int channel) {
 		int rate;
@@ -4700,6 +4700,10 @@ class mydsp : public dsp {
 		int rate;
 		switch ((channel)) {
 			case 0: {
+				rate = 1;
+				break;
+			}
+			case 1: {
 				rate = 1;
 				break;
 			}
@@ -4727,8 +4731,8 @@ class mydsp : public dsp {
 	virtual void instanceResetUserInterface() {
 		fHslider0 = FAUSTFLOAT(10000.0f);
 		fHslider1 = FAUSTFLOAT(0.5f);
+		fHslider2 = FAUSTFLOAT(0.29999999999999999f);
 		fButton0 = FAUSTFLOAT(0.0f);
-		fHslider2 = FAUSTFLOAT(0.5f);
 		fButton1 = FAUSTFLOAT(0.0f);
 		fHslider3 = FAUSTFLOAT(200.0f);
 		fButton2 = FAUSTFLOAT(0.0f);
@@ -4816,11 +4820,11 @@ class mydsp : public dsp {
 	}
 	
 	virtual void buildUserInterface(UI* ui_interface) {
-		ui_interface->openVerticalBox("synth");
+		ui_interface->openVerticalBox("untitled");
 		ui_interface->addHorizontalSlider("cutoff", &fHslider0, 10000.0f, 50.0f, 10000.0f, 0.00999999978f);
 		ui_interface->addHorizontalSlider("freq", &fHslider3, 200.0f, 20.0f, 1000.0f, 0.00999999978f);
 		ui_interface->addHorizontalSlider("gain", &fHslider1, 0.5f, 0.0f, 1.0f, 0.00999999978f);
-		ui_interface->addHorizontalSlider("gainOut", &fHslider2, 0.5f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->addHorizontalSlider("gainOut", &fHslider2, 0.300000012f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->addButton("gate", &fButton0);
 		ui_interface->addButton("gate1", &fButton2);
 		ui_interface->addButton("gate2", &fButton1);
@@ -4831,10 +4835,11 @@ class mydsp : public dsp {
 	
 	virtual void compute(int count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) {
 		FAUSTFLOAT* output0 = outputs[0];
+		FAUSTFLOAT* output1 = outputs[1];
 		float fSlow0 = (0.00100000005f * float(fHslider0));
 		float fSlow1 = (0.00100000005f * float(fHslider1));
-		float fSlow2 = (0.00100000005f * float(fButton0));
-		float fSlow3 = (0.00100000005f * float(fHslider2));
+		float fSlow2 = (0.00100000005f * float(fHslider2));
+		float fSlow3 = (0.00100000005f * float(fButton0));
 		float fSlow4 = (0.00100000005f * float(fButton1));
 		float fSlow5 = (0.00100000005f * float(fHslider3));
 		float fSlow6 = (0.00100000005f * float(fButton2));
@@ -4878,7 +4883,9 @@ class mydsp : public dsp {
 			fRec1[0] = (0.0f - (((fRec1[1] * (1.0f - fTemp1)) - (fTemp15 + fVec3[1])) / (fTemp1 + 1.0f)));
 			float fTemp16 = (((fTemp1 + 1.0f) / fTemp0) + 1.0f);
 			fRec0[0] = (fRec1[0] - (((fRec0[2] * (((fTemp1 + -1.0f) / fTemp0) + 1.0f)) + (2.0f * (fRec0[1] * (1.0f - (1.0f / mydsp_faustpower2_f(fTemp0)))))) / fTemp16));
-			output0[i] = FAUSTFLOAT(((fRec0[2] + (fRec0[0] + (2.0f * fRec0[1]))) / fTemp16));
+			float fTemp17 = ((fRec0[2] + (fRec0[0] + (2.0f * fRec0[1]))) / fTemp16);
+			output0[i] = FAUSTFLOAT(fTemp17);
+			output1[i] = FAUSTFLOAT(fTemp17);
 			iVec0[1] = iVec0[0];
 			fRec2[1] = fRec2[0];
 			fRec3[1] = fRec3[0];
@@ -5847,14 +5854,14 @@ class Interpolator3pt
 //--------------------------------------------------------------------------------------
 // Abstract ValueConverter class. Converts values between UI and Faust representations
 //--------------------------------------------------------------------------------------
-class ValueConverter
+class ValueConverter // Identity by default
 {
 
     public:
 
         virtual ~ValueConverter() {}
-        virtual double ui2faust(double x) = 0;
-        virtual double faust2ui(double x) = 0;
+        virtual double ui2faust(double x) { return x; };
+        virtual double faust2ui(double x) { return x; };
 };
 
 //--------------------------------------------------------------------------------------
@@ -5881,7 +5888,6 @@ class UpdatableValueConverter : public ValueConverter {
         bool getActive() { return fActive; }
     
 };
-
 
 //--------------------------------------------------------------------------------------
 // Linear conversion between ui and Faust values
@@ -6586,8 +6592,20 @@ class APIUI : public PathBuilder, public Meta, public UI
         FAUSTFLOAT getParamInit(int p) { return fInit[p]; }
 
         FAUSTFLOAT* getParamZone(int p) { return fZone[p]; }
+    
         FAUSTFLOAT getParamValue(int p) { return *fZone[p]; }
+        FAUSTFLOAT getParamValue(const char* path)
+        {
+            int index = getParamIndex(path);
+            return (index >= 0) ? getParamValue(index) : FAUSTFLOAT(0);
+        }
+    
         void setParamValue(int p, FAUSTFLOAT v) { *fZone[p] = v; }
+        void setParamValue(const char* path, FAUSTFLOAT v)
+        {
+            int index = getParamIndex(path);
+            if (index >= 0) setParamValue(index, v);
+        }
 
         double getParamRatio(int p) { return fConversion[p]->faust2ui(*fZone[p]); }
         void setParamRatio(int p, double r) { *fZone[p] = fConversion[p]->ui2faust(r); }
@@ -10900,9 +10918,11 @@ class mydsp_poly : public dsp_voice_group, public dsp_poly {
                         voice->compute(count, inputs, fMixBuffer);
                         // Mix it in result
                         voice->fLevel = mixCheckVoice(count, fMixBuffer, fOutBuffer);
-                        voice->fRelease -= count;
                         // Check the level to possibly set the voice in kFreeVoice again
-                        if ((voice->fNote == kReleaseVoice) && ((voice->fRelease < 0) || (voice->fLevel < VOICE_STOP_LEVEL))) {
+                        voice->fRelease -= count;
+                        if ((voice->fNote == kReleaseVoice)
+                            && (voice->fRelease < 0)
+                            && (voice->fLevel < VOICE_STOP_LEVEL)) {
                             voice->fNote = kFreeVoice;
                         }
                     }
@@ -17198,6 +17218,7 @@ struct dummyaudio : public dummyaudio_real<FAUSTFLOAT> {
 
 #include <set>
 #include <utility>
+#include <string.h> // for memset
 
 
 #include "Arduino.h"
@@ -17238,13 +17259,17 @@ class teensyaudio : public AudioStream, public audio {
         {
             if (INPUTS > 0) {
                 audio_block_t* inBlock[INPUTS];
-                for(int channel = 0; channel < INPUTS; channel++) {
+                for (int channel = 0; channel < INPUTS; channel++) {
                     inBlock[channel] = receiveReadOnly(channel);
-                    for (int i = 0; i < AUDIO_BLOCK_SAMPLES; i++) {
-                        int32_t val = inBlock[channel]->data[i] << 16;
-                        fInChannel[channel][i] = val*DIV_16;
+                    if (inBlock[channel]) {
+                        for (int i = 0; i < AUDIO_BLOCK_SAMPLES; i++) {
+                            int32_t val = inBlock[channel]->data[i] << 16;
+                            fInChannel[channel][i] = val*DIV_16;
+                        }
+                        release(inBlock[channel]);
+                    } else {
+                        memset(fInChannel[channel], 0, AUDIO_BLOCK_SAMPLES * sizeof(float));
                     }
-                    release(inBlock[channel]);
                 }
             }
             

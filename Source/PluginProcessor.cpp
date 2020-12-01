@@ -61,51 +61,51 @@ void SynthFaustPolyAudioProcessor::keyOff(int pitch)
 
 void SynthFaustPolyAudioProcessor::setCutoff(float cutoff)
 {
-	dspFaust.setParamValue("/Polyphonic/Voices/synth/cutoff", cutoff);
+	dspFaust.setParamValue("/Polyphonic/Voices/untitled/cutoff", cutoff);
 }
 
 void SynthFaustPolyAudioProcessor::setGain(float gainOut)
 {
-	dspFaust.setParamValue("/Polyphonic/Voices/synth/gainOut", gainOut);
+	dspFaust.setParamValue("/Polyphonic/Voices/untitled/gainOut", gainOut);
 }
 
 void SynthFaustPolyAudioProcessor::setGate1(bool gate1)
 {
 	if (gate1) {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate1", 1);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate1", 1);
 	}
 	else {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate1", 0);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate1", 0);
 	}
 }
 
 void SynthFaustPolyAudioProcessor::setGate2(bool gate2)
 {
 	if (gate2) {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate2", 1);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate2", 1);
 	}
 	else {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate2", 0);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate2", 0);
 	}
 }
 
 void SynthFaustPolyAudioProcessor::setGate3(bool gate3)
 {
 	if (gate3) {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate3", 1);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate3", 1);
 	}
 	else {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate3", 0);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate3", 0);
 	}
 }
 
 void SynthFaustPolyAudioProcessor::setGate4(bool gate4)
 {
 	if (gate4) {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate4", 1);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate4", 1);
 	}
 	else {
-		dspFaust.setParamValue("/Polyphonic/Voices/synth/gate4", 0);
+		dspFaust.setParamValue("/Polyphonic/Voices/untitled/gate4", 0);
 	}
 }
 

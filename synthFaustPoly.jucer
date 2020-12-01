@@ -5,8 +5,8 @@
               displaySplashScreen="1" pluginFormats="buildVST3">
   <MAINGROUP id="GWd9ps" name="synthFaustPoly">
     <GROUP id="{29C86BE1-8A97-38E2-2ABA-7A95958D6B16}" name="Source">
-      <FILE id="iF97tu" name="DspFaust.cpp" compile="1" resource="0" file="Source/DspFaust.cpp"/>
-      <FILE id="Qy3GBc" name="DspFaust.h" compile="0" resource="0" file="Source/DspFaust.h"/>
+      <FILE id="wxfNLH" name="DspFaust.cpp" compile="1" resource="0" file="Source/DspFaust.cpp"/>
+      <FILE id="yJpE8t" name="DspFaust.h" compile="0" resource="0" file="Source/DspFaust.h"/>
       <FILE id="M1CkUT" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="n72xyH" name="PluginProcessor.h" compile="0" resource="0"
